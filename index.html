@@ -2,75 +2,454 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>My Profile</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FlexLink - Show Off Your Socials</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',sans-serif;min-height:100vh;background:linear-gradient(135deg,#0f0f0f,#1a1a2e);display:flex;flex-direction:column;align-items:center;padding:2rem 1rem 3rem;color:#fff}
-  .avatar{width:90px;height:90px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;border:3px solid rgba(255,255,255,0.25);margin-bottom:1rem}
-  .name{font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;text-align:center}
-  .bio{font-size:14px;color:rgba(255,255,255,0.6);text-align:center;margin:6px 0 1.5rem;max-width:280px;line-height:1.5}
-  .links{width:100%;max-width:400px;display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
-  .link-btn{display:flex;align-items:center;gap:12px;padding:13px 18px;border-radius:14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;text-decoration:none;font-size:15px;font-weight:500;transition:transform 0.15s,background 0.15s}
-  .link-btn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px)}
-  .icon-wrap{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-  .like-row{display:flex;gap:10px;align-items:center}
-  .like-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:30px;padding:8px 18px;font-size:15px;cursor:pointer;transition:transform 0.15s,background 0.15s}
-  .like-btn:hover{background:rgba(255,60,100,0.3);transform:scale(1.05)}
-  .like-btn.liked{opacity:0.6;cursor:default}
-  .share-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:30px;padding:8px 14px;font-size:13px;cursor:pointer}
-  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(0.9)}100%{transform:scale(1)}}
-  .pop{animation:pop 0.5s ease}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0d1a;--card:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.12);--text:#fff;--muted:rgba(255,255,255,0.55);--accent:#7c3aed}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.screen{display:none;min-height:100vh;padding:1.5rem 1rem 3rem;max-width:480px;margin:0 auto}
+.screen.active{display:block}
+h1{font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+h2{font-size:1.4rem;font-weight:700;margin-bottom:1rem}
+.logo{font-size:1.6rem;font-weight:800;color:var(--accent);margin-bottom:0.25rem}
+.sub{font-size:14px;color:var(--muted);margin-bottom:2rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.25rem}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+.field input,.field textarea,.field select{background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:#fff;font-size:14px;font-family:inherit;outline:none;width:100%}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.btn{width:100%;background:var(--accent);border:none;border-radius:10px;padding:11px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
+.btn:hover{opacity:0.85}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{background:rgba(255,255,255,0.08)}
+.btn-sm{width:auto;padding:7px 14px;font-size:13px;border-radius:8px}
+.btn-danger{background:#c0392b}
+.link-btn{display:flex;align-items:center;gap:12px;padding:13px 18px;border-radius:14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;text-decoration:none;font-size:15px;font-weight:500;transition:transform 0.15s,background 0.15s;margin-bottom:10px}
+.link-btn:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px)}
+.icon-wrap{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.avatar{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;border:3px solid rgba(255,255,255,0.2);margin:0 auto 0.75rem;flex-shrink:0}
+.profiles-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem}
+.profile-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem;text-align:center;cursor:pointer;transition:transform 0.15s}
+.profile-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.profile-card .mini-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0 auto 8px}
+.profile-card .pname{font-size:14px;font-weight:600}
+.profile-card .pbio{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.like-row{display:flex;gap:10px;align-items:center;margin-top:1rem}
+.like-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.08);border:1px solid var(--border);color:#fff;border-radius:30px;padding:8px 18px;font-size:15px;cursor:pointer;transition:background 0.15s}
+.like-btn:hover{background:rgba(255,60,100,0.3)}
+.like-btn.liked{opacity:0.6;cursor:default}
+.share-btn{background:rgba(255,255,255,0.08);border:1px solid var(--border);color:#fff;border-radius:30px;padding:8px 14px;font-size:13px;cursor:pointer}
+.back-btn{background:rgba(255,255,255,0.08);border:1px solid var(--border);color:#fff;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.edit-btn{background:rgba(124,58,237,0.3);border:1px solid var(--accent);color:#fff;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer}
+.link-editor{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;position:relative}
+.rm-link{position:absolute;top:8px;right:8px;background:rgba(255,60,60,0.2);border:none;color:#ff6b6b;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:14px}
+.color-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.color-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.1s}
+.color-dot.sel{transform:scale(1.2);border-color:#fff}
+.theme-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.theme-chip{padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:#fff}
+.theme-chip.sel{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.4)}
+.divider{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.error{color:#ff6b6b;font-size:13px;margin-top:6px}
+.success{color:#4ade80;font-size:13px;margin-top:6px}
+.badge{display:inline-block;background:rgba(124,58,237,0.3);border:1px solid var(--accent);color:#c4b5fd;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600;margin-left:6px}
+.admin-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.admin-row:last-child{border-bottom:none}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+.pop{animation:pop 0.4s ease}
 </style>
 </head>
 <body>
-<div class="avatar">YN</div>
-<div class="name">@yourname</div>
-<div class="bio">Welcome to my page 👋</div>
-<div class="links">
-  <a class="link-btn" href="https://instagram.com/yourname" target="_blank">
-    <span class="icon-wrap" style="background:#E1306C33"><i class="ti ti-brand-instagram" style="color:#E1306C"></i></span>Instagram</a>
-  <a class="link-btn" href="https://tiktok.com/@yourname" target="_blank">
-    <span class="icon-wrap" style="background:#ffffff22"><i class="ti ti-brand-tiktok" style="color:#fff"></i></span>TikTok</a>
-  <a class="link-btn" href="https://x.com/yourname" target="_blank">
-    <span class="icon-wrap" style="background:#1DA1F233"><i class="ti ti-brand-x" style="color:#1DA1F2"></i></span>X / Twitter</a>
-  <a class="link-btn" href="https://youtube.com/@yourname" target="_blank">
-    <span class="icon-wrap" style="background:#FF000033"><i class="ti ti-brand-youtube" style="color:#FF0000"></i></span>YouTube</a>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="screen-home">
+  <div style="text-align:center;padding-top:2rem">
+    <div class="logo">FlexLink ⚡</div>
+    <div class="sub">Show off your socials. Built different.</div>
+  </div>
+  <div style="display:flex;gap:10px;margin-bottom:1.5rem">
+    <button class="btn" onclick="show('screen-signup')">Create my page</button>
+    <button class="btn btn-outline" onclick="show('screen-login')">Log in</button>
+  </div>
+  <h2 style="font-size:1rem;color:var(--muted);margin-bottom:0.5rem">All profiles</h2>
+  <div class="profiles-grid" id="profiles-grid"></div>
+  <div style="text-align:center;margin-top:2rem">
+    <button class="btn btn-outline btn-sm" onclick="show('screen-admin-login')" style="opacity:0.4;font-size:12px">Admin</button>
+  </div>
 </div>
-<div class="like-row">
-  <button class="like-btn" id="likeBtn" onclick="handleLike()">
-    <i class="ti ti-heart" id="heartIcon"></i>
-    <span id="likeCount">Like</span>
-  </button>
-  <button class="share-btn" onclick="handleShare()">
-    <i class="ti ti-copy"></i> <span id="shareText">Share</span>
-  </button>
+
+<!-- SIGNUP -->
+<div class="screen" id="screen-signup">
+  <div class="nav">
+    <button class="back-btn" onclick="show('screen-home')"><i class="ti ti-arrow-left"></i> Back</button>
+  </div>
+  <div class="logo">FlexLink ⚡</div>
+  <div class="sub">Create your profile</div>
+  <div class="card">
+    <div class="field"><label>Username</label><input id="su-user" placeholder="e.g. sosuke" maxlength="20"/></div>
+    <div class="field"><label>Password</label><input id="su-pass" type="password" placeholder="Pick a password"/></div>
+    <div class="field"><label>Display name</label><input id="su-name" placeholder="Your name"/></div>
+    <button class="btn" onclick="doSignup()">Create page</button>
+    <div class="error" id="su-err"></div>
+  </div>
+  <p style="text-align:center;margin-top:1rem;font-size:13px;color:var(--muted)">Already have a page? <span style="color:var(--accent);cursor:pointer" onclick="show('screen-login')">Log in</span></p>
 </div>
+
+<!-- LOGIN -->
+<div class="screen" id="screen-login">
+  <div class="nav">
+    <button class="back-btn" onclick="show('screen-home')"><i class="ti ti-arrow-left"></i> Back</button>
+  </div>
+  <div class="logo">FlexLink ⚡</div>
+  <div class="sub">Welcome back</div>
+  <div class="card">
+    <div class="field"><label>Username</label><input id="li-user" placeholder="your username"/></div>
+    <div class="field"><label>Password</label><input id="li-pass" type="password" placeholder="your password"/></div>
+    <button class="btn" onclick="doLogin()">Log in</button>
+    <div class="error" id="li-err"></div>
+  </div>
+</div>
+
+<!-- PROFILE VIEW -->
+<div class="screen" id="screen-profile">
+  <div class="nav">
+    <button class="back-btn" onclick="show('screen-home')"><i class="ti ti-arrow-left"></i> All profiles</button>
+    <button class="edit-btn" id="edit-own-btn" style="display:none" onclick="goEditProfile()"><i class="ti ti-pencil"></i> Edit</button>
+  </div>
+  <div style="text-align:center">
+    <div class="avatar" id="pv-avatar"></div>
+    <div style="font-size:1.5rem;font-weight:800" id="pv-name"></div>
+    <div style="font-size:13px;color:var(--muted);margin:4px 0 1.5rem" id="pv-bio"></div>
+  </div>
+  <div id="pv-links"></div>
+  <div class="like-row" style="justify-content:center">
+    <button class="like-btn" id="pv-like-btn" onclick="handleLike()">
+      <i class="ti ti-heart" id="pv-heart"></i>
+      <span id="pv-likes">Like</span>
+    </button>
+    <button class="share-btn" onclick="handleShare()"><i class="ti ti-copy"></i> <span id="share-txt">Share</span></button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE -->
+<div class="screen" id="screen-edit">
+  <div class="nav">
+    <button class="back-btn" onclick="goViewOwn()"><i class="ti ti-arrow-left"></i> My page</button>
+    <button class="btn btn-danger btn-sm" onclick="doLogout()">Log out</button>
+  </div>
+  <h2>Edit your page</h2>
+  <div class="card" style="margin-bottom:12px">
+    <div class="field"><label>Display name</label><input id="ed-name" maxlength="30"/></div>
+    <div class="field"><label>Bio</label><textarea id="ed-bio" rows="2" maxlength="100" style="resize:none"></textarea></div>
+    <div class="field">
+      <label>Avatar color</label>
+      <div class="color-row" id="ed-colors"></div>
+    </div>
+    <div class="field">
+      <label>Theme</label>
+      <div class="theme-row" id="ed-themes"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:12px">
+    <h2 style="font-size:1rem;margin-bottom:0.75rem">Social links</h2>
+    <div id="ed-links"></div>
+    <button class="btn btn-outline" onclick="addEditLink()" style="margin-bottom:0">+ Add link</button>
+  </div>
+  <button class="btn" onclick="saveProfile()">Save changes</button>
+  <div class="success" id="ed-success"></div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div class="screen" id="screen-admin-login">
+  <div class="nav">
+    <button class="back-btn" onclick="show('screen-home')"><i class="ti ti-arrow-left"></i> Back</button>
+  </div>
+  <div class="logo">Admin Panel</div>
+  <div class="sub">CEO access only</div>
+  <div class="card">
+    <div class="field"><label>Admin password</label><input id="adm-pass" type="password" placeholder="Enter admin password"/></div>
+    <button class="btn" onclick="doAdminLogin()">Enter</button>
+    <div class="error" id="adm-err"></div>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted)">Default password: <code style="color:#c4b5fd">flexlink2024</code></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="screen" id="screen-admin">
+  <div class="nav">
+    <button class="back-btn" onclick="show('screen-home')"><i class="ti ti-arrow-left"></i> Home</button>
+    <span style="font-size:13px;color:var(--muted)">CEO Panel <span class="badge">Admin</span></span>
+  </div>
+  <h2>All users</h2>
+  <div id="admin-users"></div>
+  <hr class="divider"/>
+  <div class="field"><label>Change admin password</label><input id="new-adm-pass" type="password" placeholder="New password"/></div>
+  <button class="btn btn-outline btn-sm" onclick="changeAdminPass()">Update password</button>
+  <div class="success" id="adm-success"></div>
+</div>
+
 <script>
-  let likes = parseInt(localStorage.getItem('likes') || '0');
-  let liked = localStorage.getItem('liked') === 'true';
-  const likeCount = document.getElementById('likeCount');
-  const likeBtn = document.getElementById('likeBtn');
-  const heartIcon = document.getElementById('heartIcon');
-  if (likes > 0) likeCount.textContent = likes;
-  if (liked) { likeBtn.classList.add('liked'); heartIcon.style.color = '#ff4d6d'; }
-  function handleLike() {
-    if (liked) return;
-    likes++; liked = true;
-    localStorage.setItem('likes', likes);
-    localStorage.setItem('liked', 'true');
-    likeCount.textContent = likes;
-    heartIcon.style.color = '#ff4d6d';
-    likeBtn.classList.add('liked','pop');
-    setTimeout(() => likeBtn.classList.remove('pop'), 600);
-  }
-  function handleShare() {
-    navigator.clipboard.writeText(window.location.href).catch(()=>{});
-    const s = document.getElementById('shareText');
-    s.textContent = 'Copied!';
-    setTimeout(() => s.textContent = 'Share', 2000);
-  }
+const PLATFORMS=[
+  {id:'instagram',label:'Instagram',icon:'ti-brand-instagram',color:'#E1306C',prefix:'https://instagram.com/'},
+  {id:'tiktok',label:'TikTok',icon:'ti-brand-tiktok',color:'#69C9D0',prefix:'https://tiktok.com/@'},
+  {id:'twitter',label:'X / Twitter',icon:'ti-brand-x',color:'#1DA1F2',prefix:'https://x.com/'},
+  {id:'youtube',label:'YouTube',icon:'ti-brand-youtube',color:'#FF0000',prefix:'https://youtube.com/@'},
+  {id:'twitch',label:'Twitch',icon:'ti-brand-twitch',color:'#9146FF',prefix:'https://twitch.tv/'},
+  {id:'snapchat',label:'Snapchat',icon:'ti-brand-snapchat',color:'#FFFC00',prefix:''},
+  {id:'discord',label:'Discord',icon:'ti-brand-discord',color:'#5865F2',prefix:''},
+  {id:'spotify',label:'Spotify',icon:'ti-brand-spotify',color:'#1DB954',prefix:'https://open.spotify.com/user/'},
+  {id:'github',label:'GitHub',icon:'ti-brand-github',color:'#aaa',prefix:'https://github.com/'},
+  {id:'custom',label:'Custom Link',icon:'ti-link',color:'#888',prefix:''},
+];
+const THEMES=[
+  {id:'dark',bg:'#0d0d1a'},
+  {id:'purple',bg:'#1a0d3a'},
+  {id:'ocean',bg:'#0a1628'},
+  {id:'rose',bg:'#1a0010'},
+  {id:'forest',bg:'#071a0f'},
+];
+const COLORS=['#7c3aed','#db2777','#0ea5e9','#10b981','#f59e0b','#ef4444','#6366f1','#ec4899'];
+const ADMIN_KEY='flexlink_admin';
+const USERS_KEY='flexlink_users';
+const LIKES_KEY='flexlink_likes';
+
+let currentUser=null;
+let viewingUser=null;
+
+function getUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}')}catch{return {}}}
+function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u))}
+function getLikes(){try{return JSON.parse(localStorage.getItem(LIKES_KEY)||'{}')}catch{return {}}}
+function saveLikes(l){localStorage.setItem(LIKES_KEY,JSON.stringify(l))}
+function getAdminPass(){return localStorage.getItem(ADMIN_KEY)||'flexlink2024'}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='screen-home') renderHome();
+  if(id==='screen-admin') renderAdmin();
+}
+
+function renderHome(){
+  const users=getUsers();
+  const grid=document.getElementById('profiles-grid');
+  const keys=Object.keys(users);
+  if(!keys.length){grid.innerHTML='<p style="color:var(--muted);font-size:13px;grid-column:span 2">No profiles yet. Be the first!</p>';return;}
+  grid.innerHTML=keys.map(u=>{
+    const p=users[u];
+    const likes=getLikes()[u]||0;
+    return `<div class="profile-card" onclick="viewProfile('${u}')">
+      <div class="mini-avatar" style="background:${p.avatarColor||'#7c3aed'}">${p.name?p.name.slice(0,2).toUpperCase():'??'}</div>
+      <div class="pname">@${u}</div>
+      <div class="pbio">${p.bio||'No bio yet'}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px"><i class="ti ti-heart" style="font-size:11px"></i> ${likes}</div>
+    </div>`;
+  }).join('');
+}
+
+function viewProfile(username){
+  const users=getUsers();
+  const p=users[username];
+  if(!p) return;
+  viewingUser=username;
+  document.getElementById('pv-name').textContent=(p.name||username);
+  document.getElementById('pv-bio').textContent=(p.bio||'');
+  const av=document.getElementById('pv-avatar');
+  av.style.background=p.avatarColor||'#7c3aed';
+  av.textContent=p.name?p.name.slice(0,2).toUpperCase():'??';
+  document.body.style.background=THEMES.find(t=>t.id===(p.theme||'dark'))?.bg||'#0d0d1a';
+  const linksDiv=document.getElementById('pv-links');
+  linksDiv.innerHTML=(p.links||[]).filter(l=>l.handle||l.url).map(l=>{
+    const pl=PLATFORMS.find(x=>x.id===l.platform)||PLATFORMS[PLATFORMS.length-1];
+    const href=l.platform==='custom'?l.url:(pl.prefix+l.handle);
+    const label=l.label||(pl.label+(l.handle?` @${l.handle}`:''));
+    return `<a class="link-btn" href="${href}" target="_blank" rel="noopener">
+      <span class="icon-wrap" style="background:${pl.color}33"><i class="ti ${pl.icon}" style="color:${pl.color}"></i></span>${label}</a>`;
+  }).join('');
+  const likes=getLikes();
+  const count=likes[username]||0;
+  document.getElementById('pv-likes').textContent=count>0?count:'Like';
+  const myLiked=JSON.parse(localStorage.getItem('my_liked')||'[]');
+  const likeBtn=document.getElementById('pv-like-btn');
+  const heart=document.getElementById('pv-heart');
+  if(myLiked.includes(username)){likeBtn.classList.add('liked');heart.style.color='#ff4d6d';}
+  else{likeBtn.classList.remove('liked');heart.style.color='';}
+  const editBtn=document.getElementById('edit-own-btn');
+  editBtn.style.display=(currentUser===username)?'block':'none';
+  show('screen-profile');
+}
+
+function handleLike(){
+  const myLiked=JSON.parse(localStorage.getItem('my_liked')||'[]');
+  if(myLiked.includes(viewingUser)) return;
+  myLiked.push(viewingUser);
+  localStorage.setItem('my_liked',JSON.stringify(myLiked));
+  const likes=getLikes();
+  likes[viewingUser]=(likes[viewingUser]||0)+1;
+  saveLikes(likes);
+  const count=likes[viewingUser];
+  document.getElementById('pv-likes').textContent=count;
+  document.getElementById('pv-like-btn').classList.add('liked','pop');
+  document.getElementById('pv-heart').style.color='#ff4d6d';
+  setTimeout(()=>document.getElementById('pv-like-btn').classList.remove('pop'),500);
+}
+
+function handleShare(){
+  const url=window.location.href.split('#')[0]+'#'+viewingUser;
+  navigator.clipboard.writeText(url).catch(()=>{});
+  const s=document.getElementById('share-txt');
+  s.textContent='Copied!';
+  setTimeout(()=>s.textContent='Share',2000);
+}
+
+function doSignup(){
+  const user=document.getElementById('su-user').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  const pass=document.getElementById('su-pass').value;
+  const name=document.getElementById('su-name').value.trim();
+  const err=document.getElementById('su-err');
+  if(!user||user.length<2){err.textContent='Username must be at least 2 characters';return;}
+  if(!pass||pass.length<4){err.textContent='Password must be at least 4 characters';return;}
+  if(!name){err.textContent='Please enter your display name';return;}
+  const users=getUsers();
+  if(users[user]){err.textContent='That username is taken!';return;}
+  users[user]={pass,name,bio:'',avatarColor:'#7c3aed',theme:'dark',links:[]};
+  saveUsers(users);
+  currentUser=user;
+  err.textContent='';
+  goEditProfile();
+}
+
+function doLogin(){
+  const user=document.getElementById('li-user').value.trim().toLowerCase();
+  const pass=document.getElementById('li-pass').value;
+  const err=document.getElementById('li-err');
+  const users=getUsers();
+  if(!users[user]||users[user].pass!==pass){err.textContent='Wrong username or password';return;}
+  currentUser=user;
+  err.textContent='';
+  viewProfile(user);
+}
+
+function doLogout(){
+  currentUser=null;
+  document.body.style.background='#0d0d1a';
+  show('screen-home');
+}
+
+function goEditProfile(){
+  const users=getUsers();
+  const p=users[currentUser];
+  document.getElementById('ed-name').value=p.name||'';
+  document.getElementById('ed-bio').value=p.bio||'';
+  const colDiv=document.getElementById('ed-colors');
+  colDiv.innerHTML=COLORS.map(c=>`<button class="color-dot${(p.avatarColor===c)?' sel':''}" style="background:${c}" onclick="selColor('${c}',this)" aria-label="${c}"></button>`).join('');
+  const thDiv=document.getElementById('ed-themes');
+  const tLabels={dark:'Dark',purple:'Purple',ocean:'Ocean',rose:'Rose',forest:'Forest'};
+  thDiv.innerHTML=THEMES.map(t=>`<button class="theme-chip${(p.theme===t.id)?' sel':''}" onclick="selTheme('${t.id}',this)">${tLabels[t.id]}</button>`).join('');
+  const linksDiv=document.getElementById('ed-links');
+  linksDiv.innerHTML='';
+  (p.links||[]).forEach(l=>addEditLinkRow(l));
+  document.getElementById('ed-success').textContent='';
+  show('screen-edit');
+}
+
+function goViewOwn(){viewProfile(currentUser);}
+
+function selColor(c,el){
+  document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function selTheme(id,el){
+  document.querySelectorAll('.theme-chip').forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function addEditLink(){addEditLinkRow({platform:'instagram',handle:'',label:'',url:''});}
+function addEditLinkRow(l){
+  const div=document.createElement('div');
+  div.className='link-editor';
+  div.innerHTML=`
+    <button class="rm-link" onclick="this.parentElement.remove()">×</button>
+    <div class="field" style="margin-bottom:6px"><label>Platform</label>
+    <select class="lnk-platform">${PLATFORMS.map(p=>`<option value="${p.id}"${l.platform===p.id?' selected':''}>${p.label}</option>`).join('')}</select></div>
+    <div class="field" style="margin-bottom:6px"><label>Username / URL</label><input class="lnk-handle" value="${l.handle||l.url||''}" placeholder="your username or link"/></div>
+    <div class="field" style="margin-bottom:0"><label>Button label (optional)</label><input class="lnk-label" value="${l.label||''}" placeholder="e.g. Follow me on Instagram"/></div>`;
+  document.getElementById('ed-links').appendChild(div);
+}
+
+function saveProfile(){
+  const users=getUsers();
+  const p=users[currentUser];
+  p.name=document.getElementById('ed-name').value.trim()||p.name;
+  p.bio=document.getElementById('ed-bio').value.trim();
+  const selCol=document.querySelector('.color-dot.sel');
+  if(selCol) p.avatarColor=selCol.style.background;
+  const selTh=document.querySelector('.theme-chip.sel');
+  if(selTh){const tLabels={Dark:'dark',Purple:'purple',Ocean:'ocean',Rose:'rose',Forest:'forest'};p.theme=tLabels[selTh.textContent]||'dark';}
+  const linkRows=document.querySelectorAll('#ed-links .link-editor');
+  p.links=[];
+  linkRows.forEach(row=>{
+    const platform=row.querySelector('.lnk-platform').value;
+    const handle=row.querySelector('.lnk-handle').value.trim();
+    const label=row.querySelector('.lnk-label').value.trim();
+    if(handle) p.links.push({platform,handle:platform==='custom'?'':handle,url:platform==='custom'?handle:'',label});
+  });
+  saveUsers(users);
+  document.getElementById('ed-success').textContent='Saved!';
+  setTimeout(()=>document.getElementById('ed-success').textContent='',2000);
+}
+
+function doAdminLogin(){
+  const pass=document.getElementById('adm-pass').value;
+  if(pass!==getAdminPass()){document.getElementById('adm-err').textContent='Wrong password';return;}
+  document.getElementById('adm-err').textContent='';
+  show('screen-admin');
+}
+
+function renderAdmin(){
+  const users=getUsers();
+  const likes=getLikes();
+  const div=document.getElementById('admin-users');
+  const keys=Object.keys(users);
+  if(!keys.length){div.innerHTML='<p style="color:var(--muted);font-size:13px">No users yet</p>';return;}
+  div.innerHTML=keys.map(u=>`
+    <div class="admin-row">
+      <div>
+        <div style="font-weight:600">@${u}</div>
+        <div style="font-size:12px;color:var(--muted)">${users[u].name} · ${likes[u]||0} likes</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-outline btn-sm" onclick="viewProfile('${u}');show('screen-profile')">View</button>
+        <button class="btn btn-danger btn-sm" onclick="adminDelete('${u}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function adminDelete(u){
+  if(!confirm('Delete @'+u+'?')) return;
+  const users=getUsers();
+  delete users[u];
+  saveUsers(users);
+  renderAdmin();
+}
+
+function changeAdminPass(){
+  const p=document.getElementById('new-adm-pass').value;
+  if(!p||p.length<4){document.getElementById('adm-success').textContent='Password too short';return;}
+  localStorage.setItem(ADMIN_KEY,p);
+  document.getElementById('adm-success').textContent='Password updated!';
+  document.getElementById('new-adm-pass').value='';
+  setTimeout(()=>document.getElementById('adm-success').textContent='',2000);
+}
+
+window.onhashchange=function(){
+  const h=location.hash.slice(1);
+  if(h) viewProfile(h);
+};
+if(location.hash) viewProfile(location.hash.slice(1));
+else renderHome();
 </script>
 </body>
 </html>
