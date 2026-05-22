@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Profile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;min-height:100vh;background:linear-gradient(135deg,#0f0f0f,#1a1a2e);display:flex;flex-direction:column;align-items:center;padding:2rem 1rem 3rem;color:#fff}
+  .avatar{width:90px;height:90px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;border:3px solid rgba(255,255,255,0.25);margin-bottom:1rem}
+  .name{font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;text-align:center}
+  .bio{font-size:14px;color:rgba(255,255,255,0.6);text-align:center;margin:6px 0 1.5rem;max-width:280px;line-height:1.5}
+  .links{width:100%;max-width:400px;display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+  .link-btn{display:flex;align-items:center;gap:12px;padding:13px 18px;border-radius:14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;text-decoration:none;font-size:15px;font-weight:500;transition:transform 0.15s,background 0.15s}
+  .link-btn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px)}
+  .icon-wrap{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .like-row{display:flex;gap:10px;align-items:center}
+  .like-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:30px;padding:8px 18px;font-size:15px;cursor:pointer;transition:transform 0.15s,background 0.15s}
+  .like-btn:hover{background:rgba(255,60,100,0.3);transform:scale(1.05)}
+  .like-btn.liked{opacity:0.6;cursor:default}
+  .share-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:30px;padding:8px 14px;font-size:13px;cursor:pointer}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(0.9)}100%{transform:scale(1)}}
+  .pop{animation:pop 0.5s ease}
+</style>
+</head>
+<body>
+<div class="avatar">YN</div>
+<div class="name">@yourname</div>
+<div class="bio">Welcome to my page 👋</div>
+<div class="links">
+  <a class="link-btn" href="https://instagram.com/yourname" target="_blank">
+    <span class="icon-wrap" style="background:#E1306C33"><i class="ti ti-brand-instagram" style="color:#E1306C"></i></span>Instagram</a>
+  <a class="link-btn" href="https://tiktok.com/@yourname" target="_blank">
+    <span class="icon-wrap" style="background:#ffffff22"><i class="ti ti-brand-tiktok" style="color:#fff"></i></span>TikTok</a>
+  <a class="link-btn" href="https://x.com/yourname" target="_blank">
+    <span class="icon-wrap" style="background:#1DA1F233"><i class="ti ti-brand-x" style="color:#1DA1F2"></i></span>X / Twitter</a>
+  <a class="link-btn" href="https://youtube.com/@yourname" target="_blank">
+    <span class="icon-wrap" style="background:#FF000033"><i class="ti ti-brand-youtube" style="color:#FF0000"></i></span>YouTube</a>
+</div>
+<div class="like-row">
+  <button class="like-btn" id="likeBtn" onclick="handleLike()">
+    <i class="ti ti-heart" id="heartIcon"></i>
+    <span id="likeCount">Like</span>
+  </button>
+  <button class="share-btn" onclick="handleShare()">
+    <i class="ti ti-copy"></i> <span id="shareText">Share</span>
+  </button>
+</div>
+<script>
+  let likes = parseInt(localStorage.getItem('likes') || '0');
+  let liked = localStorage.getItem('liked') === 'true';
+  const likeCount = document.getElementById('likeCount');
+  const likeBtn = document.getElementById('likeBtn');
+  const heartIcon = document.getElementById('heartIcon');
+  if (likes > 0) likeCount.textContent = likes;
+  if (liked) { likeBtn.classList.add('liked'); heartIcon.style.color = '#ff4d6d'; }
+  function handleLike() {
+    if (liked) return;
+    likes++; liked = true;
+    localStorage.setItem('likes', likes);
+    localStorage.setItem('liked', 'true');
+    likeCount.textContent = likes;
+    heartIcon.style.color = '#ff4d6d';
+    likeBtn.classList.add('liked','pop');
+    setTimeout(() => likeBtn.classList.remove('pop'), 600);
+  }
+  function handleShare() {
+    navigator.clipboard.writeText(window.location.href).catch(()=>{});
+    const s = document.getElementById('shareText');
+    s.textContent = 'Copied!';
+    setTimeout(() => s.textContent = 'Share', 2000);
+  }
+</script>
+</body>
+</html>
